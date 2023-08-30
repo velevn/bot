@@ -5,13 +5,14 @@ from dotenv import load_dotenv
 import os
 
 
-dotenv_path = os.path.join(os.path.dirname(__file__),'.env')
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 bot = telebot.TeleBot(os.getenv('API_TOKEN'))
 
 logger.info('Бот запущен')
+
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -34,6 +35,7 @@ def result(message):
     try:
         cur_1, cur_2, amount = values
     except ValueError:
+        logger.error('Введено неверное количество параметров')
         bot.send_message(
             message.chat.id, 'Введите нужное количество параметров.')
         return
